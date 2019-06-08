@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/cryptos.css">
+  <style>
+    body{color:black;background-color: darkcyan; font-family: verdana;}
+    /* h1{font-size: 48px;text-transform: uppercase;letter-spacing: 2px;text-align: center;} */
+    /* p{font-size: 16px;text-align: center;} */
+    /* table{margin-left: auto;margin-right: auto;text-align: center;} */
+    /* input{
+     background:none!important;
+     color:inherit;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     border is optional
+     border-bottom:1px solid #444;
+     cursor: pointer;
+} */
+</style>
+
+
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="./">Cryptocurrency Historical Prices</a>
+          </div>
+          <ul class="nav navbar-nav ">
+            <li ><a href="./">Home</a></li>
+            <li><a href="/crypto">Prices</a></li>
+            <li class="active"><a href="/datasets">Datasets</a></li>
+          </ul>
+        </div>
+      </nav>
+  <!-- <div class='jumbotron jumbotron-fluid'> -->
+    <div class='container cry'>
+      <h2>Choose a dataset name:</h2>
+    <ul class='names'>
+
+    <li class='crypto'>Bitcoin Dataset</li>
+    <li class='crypto'>Ethereum Dataset</li>
+
+    </ul>
+  </div>
+  <div class='container mon'>
+    <%if(data!=''){%>
+
+    <h2>Choose a month for <%=crypto%>:</h2>
+    <%years.forEach(function(item){%>
+      
+      <ul class='names'>
+
+          <li class='year'><b><%=item%></b></li>
+      <% data.forEach(function(index){%>
+          <%if(item==index.year){%>
+        
+        <li name='<%=index.year%>' class=' month'><%=index.month%></li>
+            <%}%>
+      <% }) %>
+      </ul>
+    <%})%>
+    <%}%>
+    </div>
+    <!-- </div> -->
+
+
+  <script>
+$(".crypto").click(function(){
+    var crypto=$(this).text();
+ 
+
+    $.post("/datasets",{crypto:crypto},function(data){
+        if(data==='done')
+        {
+            window.location.href="/datasets";
+        }
+    });
+});
+
+$(".month").click(function(){
+    
+    var crypto = '<%=crypto%>';
+    var month=$(this).text();
+    var year = $(this).attr('name');
+    console.log(year+"/"+month);
+    var title = year+"/"+month;
+    if(crypto.includes("Ethereum")){
+      $.post("/ethdatasetdates",{title:title},function(data){
+        if(data==='done')
+        {
+            window.location.href="/ethdatasetdates";
+        }
+      })
+    }else{
+      $.post("/bitdatasetdates",{title:title},function(data){
+        if(data==='done')
+        {
+            window.location.href="/bitdatasetdates";
+        }
+      })
+    }
+    
+});
+</script>
+</body>
+<html>

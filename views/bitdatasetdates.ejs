@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='javascript/Chart.js'></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/dates.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            body{color:black;background-color:darkcyan;font-family: verdana;
+  height: 100%;
+}
+      </style>
+        <!--<style> 
+    /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+    body{color:black;background-color:darkcyan;font-family: verdana;
+    height: 100%;
+}
+    /* h1{font-size: 48px;text-transform: uppercase;letter-spacing: 2px;text-align: center;} */
+    /* p{font-size: 16px;text-align: center;} */
+    /* table{margin-left: auto;margin-right: auto;text-align: center;} */
+    /* input{
+     background:none!important;
+     color:inherit;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     
+    border-bottom:1px solid #444;
+     cursor: pointer;
+}   */
+h1{
+  color:black;
+  padding-left:50px;
+  text-transform: capitalize;
+}
+
+.header{
+    cursor:pointer;
+}
+ul{
+	list-style:none;
+	padding:0;
+	margin: 0 0 10px 0;
+
+}
+.max,.min,.avg{
+  cursor:pointer;
+}
+.max:hover,.min:hover,.avg:hover{
+  color:lightslategray;
+  
+}
+.header:hover{
+  color:lightslategray;
+  box-shadow: 0 1px #666;
+}
+li.crypto{
+  text-transform: capitalize;
+	display:inline;
+	margin-right:10px;
+}
+li.month{
+	display:inline;
+	margin-right:10px;
+}
+li.year{
+  display:inline;
+  padding-right:10px;
+  margin-right:10px;
+  border-right: 4px solid ;
+}.dropdown{
+  display: inline;
+  margin:10px;
+  padding-bottom: 10px;
+}.dropbtn{
+  display:inline;
+}
+div.tablediv{
+  white-space: nowrap;
+  margin-left: 10%;
+  margin-right: 10%;
+  width:80%;
+  
+  
+  display: block;
+  overflow: auto;
+  
+  text-align: center;
+  
+}
+table.data{
+  
+  text-align: center; 
+  border : 2px solid;
+}div.charts{
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-left: 10%;
+  margin-right: 10%;
+  width:1000px;
+    
+    /* padding-bottom:150px; */
+    padding-left:50px;
+    padding-right:50px;
+    margin-bottom:25px;
+}div.canv{
+    white-space: nowrap;
+  display: block;
+  /* float:left; */
+  margin-left:25px;
+  margin-right: 25px;
+  padding-bottom: 200px;
+}
+.aggbox{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background-color: white;
+  padding: 10px;
+  border: 2px solid;
+  border-radius:4px;
+  text-align: center;
+  text-transform: capitalize;
+  width: max-content;
+}
+/* This is for hovering */
+
+.dropbtn {
+  background-color: #4d4dff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content li:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #6666ff;}
+
+/* The end */
+
+
+
+
+
+  </style> -->
+</head>
+<body>
+  
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="./">Cryptocurrency Historical Prices</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li ><a href="./">Home</a></li>
+            <li><a href="/crypto">Prices</a></li>
+            <li><a href="/datasets">Datasets</a></li>
+          </ul>
+        </div>
+      </nav>
+    
+
+    <h1>Data for <%=crypto%></h1>
+
+    <div class='charts'>
+        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+          <canvas id='marketpricecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='totalbitcoinscanvas' width='10' height='10'></canvas>
+              </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='marketcapcanvas' width='10' height='10'></canvas>
+            </div>
+           <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='tradevolumecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='blockssizecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='avgblocksizecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='norphanedblockscanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='ntransactionsperblockcanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='confirmationtimecanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='hashratecanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='difficultycanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='minersrevenuecanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='transactionsfeescanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='costpertranspercentcanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='costpertranscanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                  <canvas id='nuniqueaddscanvas' width='10' height='10'></canvas>
+                  </div>
+                  <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                  <canvas id='ntranscanvas' width='10' height='10'></canvas>
+                  </div>
+                  <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                        <canvas id='ntranstotalcanvas' width='10' height='10'></canvas>
+                        </div>
+                        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                        <canvas id='ntranspopularcanvas' width='10' height='10'></canvas>
+                        </div>
+                        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                        <canvas id='ntranslonger100canvas' width='10' height='10'></canvas>
+                        </div>
+                        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                          <canvas id='outputvolumecanvas' width='10' height='10'></canvas>
+                          </div>
+                          <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                          <canvas id='estimatedtransvolcanvas' width='10' height='10'></canvas>
+                          </div>
+                          <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                                <canvas id='estimatedtransvolusdcanvas' width='10' height='10'></canvas>
+                                </div>
+    
+          </div>
+          <div class="aggr " align='center'>
+          <div class="dropdown">
+            <button class="dropbtn">Maximum</button>
+            <ul class="dropdown-content">
+              <li class='max' name='marketprice'>Market Price</li>
+              <li class='max ' name='totalbitcoins' >Total Bitcoins</li>
+              <li class='max ' name='marketcap' >Market Cap</li>
+              <li class='max' name='tradevolume' >Trade Volume</li>
+              <li class='max' name='blockssize' >Supply</li>
+              <li class='max' name='avgblocksize' >Average Block Size</li>
+              <li class='max ' name='norphanedblocks' >Number Of Orphaned Blocks</li>
+              <li class='max ' name='ntransactionsperblock' >Number Of Transactions Per Block</li>
+              <li class='max ' name='medianconfirmationtime' >Median Confirmation Time</li>
+              <li class='max ' name='hashrate' >Hash Rate</li>
+              <li class='max ' name='difficulty' >Difficulty</li>
+              <li class='max ' name='minersrevenue' >Miners Revenue</li>
+              <li class='max ' name='transactionsfees' >Transactions Fees</li>
+              <li class='max ' name='costpertransactionpercent' >Cost Per Transaction Percent</li>
+              <li class='max ' name='costpertransaction' >Cost Per Transaction</li>
+              <li class='max ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
+              <li class='max ' name='ntransactions' >Number Of Transactions</li>
+              <li class='max ' name='ntransactionstotal' >Number Of Transactions Total</li>
+              <li class='max ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='max ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='max ' name='outputvolume' >Output Volume</li>
+              <li class='max ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
+              <li class='max ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
+
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Minimum</button>
+            <ul class="dropdown-content">
+              <li class='min' name='marketprice'>Market Price</li>
+              <li class='min ' name='totalbitcoins' >Total Bitcoins</li>
+              <li class='min ' name='marketcap' >Market Cap</li>
+              <li class='min' name='tradevolume' >Trade Volume</li>
+              <li class='min' name='blockssize' >Supply</li>
+              <li class='min' name='avgblocksize' >Average Block Size</li>
+              <li class='min ' name='norphanedblocks' >Number Of Orphaned Blocks</li>
+              <li class='min ' name='ntransactionsperblock' >Number Of Transactions Per Block</li>
+              <li class='min ' name='medianconfirmationtime' >Median Confirmation Time</li>
+              <li class='min ' name='hashrate' >Hash Rate</li>
+              <li class='min ' name='difficulty' >Difficulty</li>
+              <li class='min ' name='minersrevenue' >Miners Revenue</li>
+              <li class='min ' name='transactionsfees' >Transactions Fees</li>
+              <li class='min ' name='costpertransactionpercent' >Cost Per Transaction Percent</li>
+              <li class='min ' name='costpertransaction' >Cost Per Transaction</li>
+              <li class='min ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
+              <li class='min ' name='ntransactions' >Number Of Transactions</li>
+              <li class='min ' name='ntransactionstotal' >Number Of Transactions Total</li>
+              <li class='min ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='min ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='min ' name='outputvolume' >Output Volume</li>
+              <li class='min ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
+              <li class='min ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Average</button>
+            <ul class="dropdown-content">
+              <li class='avg' name='marketprice'>Market Price</li>
+              <li class='avg ' name='totalbitcoins' >Total Bitcoins</li>
+              <li class='avg ' name='marketcap' >Market Cap</li>
+              <li class='avg' name='tradevolume' >Trade Volume</li>
+              <li class='avg' name='blockssize' >Supply</li>
+              <li class='avg' name='avgblocksize' >Average Block Size</li>
+              <li class='avg ' name='norphanedblocks' >Number Of Orphaned Blocks</li>
+              <li class='avg ' name='ntransactionsperblock' >Number Of Transactions Per Block</li>
+              <li class='avg ' name='medianconfirmationtime' >Median Confirmation Time</li>
+              <li class='avg ' name='hashrate' >Hash Rate</li>
+              <li class='avg ' name='difficulty' >Difficulty</li>
+              <li class='avg ' name='minersrevenue' >Miners Revenue</li>
+              <li class='avg ' name='transactionsfees' >Transactions Fees</li>
+              <li class='avg ' name='costpertransactionpercent' >Cost Per Transaction Percent</li>
+              <li class='avg ' name='costpertransaction' >Cost Per Transaction</li>
+              <li class='avg ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
+              <li class='avg ' name='ntransactions' >Number Of Transactions</li>
+              <li class='avg ' name='ntransactionstotal' >Number Of Transactions Total</li>
+              <li class='avg ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='avg ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='avg ' name='outputvolume' >Output Volume</li>
+              <li class='avg ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
+              <li class='avg ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
+          </ul>
+          </div>
+        </div>
+
+
+                        
+  
+                          <%if(aggregation=='max' && max!=''){%>
+                            <%console.log('Max for '+ column + " is: " + max); %>
+                            
+                          
+                        <h4 class='aggbox text-center' align='center'>Maximum for <%=text%> is: <%=max%></h4>
+                           
+                          <%}%>
+            
+                          <%if(aggregation=='min' && max!=''){%>
+                            <%console.log('Min for '+ column + " is: " + max); %>
+                        <h4 class='aggbox text-center' align='center'>Minimum for <%=text%> is: <%=max%></h4>
+                            
+                          <%}%>
+                      
+                  
+                        <%if(aggregation=='avg' && max!='') {%>
+                          <%console.log('Avg for '+ column + " is: " + max); %>
+                      <h4 align='center' class='aggbox text-center'>Average for <%=text%> is: <%=max.toFixed(2)%></h4>
+                          
+                        <%}%>
+    <div align='center'  class='tablediv'>
+            <table class="table table-bordered data">
+            <thead class="thead-dark">
+              <tr>
+                <th class='header' >Date</th>
+                <th class='header' >Market Price</th>
+                <th class='header'>Total Bitcoins</th>
+                <th class='header'>Market Cap</th>
+                <th class='header'>Trade Volume</th>
+                <th class='header'>Blocks Size</th>
+                <th class='header'>Average Block Size</th>
+                <th class='header'>Number Of Orphaned Blocks</th>
+                <th class='header'>Number Of Transactions Per Block</th>
+                <th class='header'>Median Confirmation Time</th>
+                <th class='header'>Hash Rate</th>
+                <th class='header'>Difficulty</th>
+                <th class='header'>Miners Revenue</th>
+                <th class='header'>Transaction Fees</th>
+                <th class='header'>Cost Per Transaction Percent</th>
+                <th class='header'>Cost Per Transaction</th>
+                <th class='header'>Number Of Unique Addresses</th>
+                <th class='header'>Number Of Transactions</th>
+                <th class='header'>Number Of Transactions Total</th>
+                <th class='header'>Number Of Transactions Excluding Popular</th>
+                <th class='header'>Number Of Transactions Excluding Chains Longer Than 100</th>
+                <th class='header'>Output Volume</th>
+                <th class='header'>Estimated Transaction Volume</th>
+                <th class='header'>Estimated Transaction Volume USD</th>
+
+              </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(function(item){%>
+              <tr>
+                <td >
+                    <%item.date.setDate(item.date.getDate()-1)%>
+                  <%var modDate = item.date.getDate() ;%>
+                  <%var modMonth = item.date.getMonth() +1;%>
+                  <%if(modDate<10){%>
+                    <%='0'+ modDate +'/'+ modMonth%>
+                    <%}else{%>
+                    <%= modDate +'/'+ modMonth%>
+                    <%}%>
+
+                </td>
+                <td><%=item.marketprice%></td>
+                <td ><%=item.totalbitcoins%></td>
+                <td><%=item.marketcap%></td>
+                <td><%=item.tradevolume%></td>
+                <td><%=item.blockssize%></td>
+                <td><%=item.avgblocksize%></td>
+                <td><%=item.norphanedblocks%></td>
+                <td><%=item.ntransactionsperblock%></td>
+                <td><%=item.medianconfirmationtime%></td>
+                <td><%=item.hashrate%></td>
+                <td><%=item.difficulty%></td>
+                <td><%=item.minersrevenue%></td>
+                <td><%=item.transactionfees%></td>
+                <td><%=item.costpertransactionpercent%></td>
+                <td><%=item.costpertransaction%></td>
+                <td><%=item.nuniqueaddresses%></td>
+                <td><%=item.ntransactions%></td>
+                <td><%=item.ntransactionstotal%></td>
+                <td><%=item.ntransactionsexcludingpopular%></td>
+                <td><%=item.ntransactionsexcludingchainslongerthan100%></td>
+                <td><%=item.outputvolume%></td>
+                <td><%=item.estimatedtransactionvolume%></td>
+                <td><%=item.estimatedtransactionvolumeusd%></td>
+              </tr>
+          
+              <%});%>
+            </tbody>
+          
+    
+
+    </table>
+  </div>
+
+
+
+
+    <script src='javascript/sort.js'></script>
+
+    
+
+              <script>
+              $(".max").click(function(){
+                var text= $(this).text();
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/max+/)[0];
+    // console.log(aggre+column);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/bitdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+$(".min").click(function(){
+  var text= $(this).text();  
+  var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/min+/)[0];
+    // console.log(aggre+column);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/bitdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+
+$(".avg").click(function(){
+    var text= $(this).text();
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/avg+/)[0];
+    // console.log(aggre);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/bitdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+              </script>
+
+
+        <script>
+        
+        var marketpricechrt = document.getElementById('marketpricecanvas').getContext('2d');
+        
+        var totalbitcoinschrt = document.getElementById('totalbitcoinscanvas').getContext('2d');
+        var marketcapchrt = document.getElementById('marketcapcanvas').getContext('2d');
+        var tradevolumechrt = document.getElementById('tradevolumecanvas').getContext('2d');
+        var blockssizechrt = document.getElementById('blockssizecanvas').getContext('2d');
+        var avgblocksizechrt = document.getElementById('avgblocksizecanvas').getContext('2d');
+        var norphanedblockschrt = document.getElementById('norphanedblockscanvas').getContext('2d');
+        var ntransactionsperblockchrt = document.getElementById('ntransactionsperblockcanvas').getContext('2d');
+        var confirmationtimechrt = document.getElementById('confirmationtimecanvas').getContext('2d');
+        var hashratchrt = document.getElementById('hashratecanvas').getContext('2d');
+        var difficultychrt = document.getElementById('difficultycanvas').getContext('2d');
+        
+        var minersrevenuechrt = document.getElementById('minersrevenuecanvas').getContext('2d');
+        var transactionsfeeschrt = document.getElementById('transactionsfeescanvas').getContext('2d');
+        var costpertranspercentchrt = document.getElementById('costpertranspercentcanvas').getContext('2d');
+        var costpertranschrt = document.getElementById('costpertranscanvas').getContext('2d');
+        var nuniqueaddschrt = document.getElementById('nuniqueaddscanvas').getContext('2d');
+        var ntranschrt = document.getElementById('ntranscanvas').getContext('2d');
+        var ntranstotalchrt = document.getElementById('ntranstotalcanvas').getContext('2d');
+        
+        var ntranspopularchrt = document.getElementById('ntranspopularcanvas').getContext('2d');
+        var ntranslonger100chrt = document.getElementById('ntranslonger100canvas').getContext('2d');
+        var outputvolumechrt = document.getElementById('outputvolumecanvas').getContext('2d');
+        var estimatedtransvolchrt = document.getElementById('estimatedtransvolcanvas').getContext('2d');
+        var estimatedtransvolusdchrt = document.getElementById('estimatedtransvolusdcanvas').getContext('2d');
+        
+        
+        var dates= [];
+        var marketprices= [];
+        var totalbitcoins= [];
+        var marketcaps= [];
+        var tradevolumes =[];
+        var blockssizes =[];
+        var avgblocksizes =[];
+        var norphanedblocks= [];
+        var ntransactionsperblocks= [];
+        var medianconfirmationtimes= [];
+        var hashrates= [];
+        var difficulties =[];
+        var minersrevenues =[];
+        var transactionfees =[];
+        var costpertransactionpercents= [];
+        var costpertransactions= [];
+        var nuniqueaddresses= [];
+        var ntransactions= [];
+        var ntransactionstotals =[];
+        var ntransactionsexludingpopulars =[];
+        var ntransactionsexludingchainslongerthan100s= [];
+        var outputvolumes= [];
+        var estimatedtransactionvolumes= [];
+        var estimatedtransactionvolumeusds= [];
+        
+        <% data.forEach(function(index){%>
+          dates.push('<%=index.date.getDate()%>');
+          marketprices.push('<%= index.marketprice%>');
+          totalbitcoins.push('<%=index.totalbitcoins%>');
+          marketcaps.push('<%= index.marketcap%>');
+          tradevolumes.push('<%= index.tradevolume%>');
+          blockssizes.push('<%= index.blockssize%>');
+          avgblocksizes.push('<%= index.avgblocksize%>');
+          norphanedblocks.push('<%= index.norphanedblocks%>');
+          ntransactionsperblocks.push('<%=index.ntransactionsperblock%>');
+        medianconfirmationtimes.push('<%= index.medianconfirmationtime%>');
+          hashrates.push('<%= index.hashrate%>');
+          difficulties.push('<%= index.difficulty%>');
+          minersrevenues.push('<%= index.minersrevenue%>');
+          transactionfees.push('<%= index.transactionfees%>');
+          costpertransactionpercents.push('<%=index.costpertransactionpercent%>');
+          costpertransactions.push('<%= index.costpertransaction%>');
+          nuniqueaddresses.push('<%= index.nuniqueaddresses%>');
+          ntransactions.push('<%= index.ntransactions%>');
+          ntransactionstotals.push('<%= index.ntransactionstotal%>');
+          ntransactionsexludingpopulars.push('<%= index.ntransactionsexcludingpopular%>');
+          ntransactionsexludingchainslongerthan100s.push('<%=index.ntransactionsexcludingchainslongerthan100%>');
+          outputvolumes.push('<%= index.outputvolume%>');
+          estimatedtransactionvolumes.push('<%= index.estimatedtransactionvolume%>');
+          estimatedtransactionvolumeusds.push('<%= index.estimatedtransactionvolumeusd%>');
+        
+          <%}) ;%>
+
+          Chart.defaults.global.defaultFontColor = 'black';
+          Chart.defaults.global.legend.labels.fontSize = 11;
+
+          Chart.defaults.global.legend.labels.boxWidth = 6;
+          Chart.defaults.global.tooltips.callbacks.title = function(tooltipItem, data) {
+           return tooltipItem[0].xLabel;
+        };
+        Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+                    return   tooltipItem.yLabel;
+        };
+
+        
+          var MarketpriceCanvas = new Chart(marketpricechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Market Price',
+                  data: marketprices,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+
+            
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  },legend:{
+                      labels: {
+                          fontColor:'black'
+                      }
+                  }
+              }
+          });
+          var TotalbitcoinsCanvas = new Chart(totalbitcoinschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Total Bitcoins',
+                  data: totalbitcoins,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var MarketcapCanvas = new Chart(marketcapchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Market Caps',
+                  data: marketcaps,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var TradevolumeCanvas = new Chart(tradevolumechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Trade Volumes',
+                  data: tradevolumes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var BlockssizeCanvas = new Chart(blockssizechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Blocks Size',
+                  data: blockssizes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var AvgblocksizeCanvas = new Chart(avgblocksizechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Average Block Size',
+                  data: avgblocksizes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value < 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NorphanedblocksCanvas = new Chart(norphanedblockschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Orphaned Blocks',
+                  data: norphanedblocks,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NtransactionsperblockCanvas = new Chart(ntransactionsperblockchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transactions Per Block',
+                  data: ntransactionsperblocks,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var MedianconfirmationtimeCanvas = new Chart(confirmationtimechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Median Confirmation Time',
+                  data: medianconfirmationtimes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var HashrateCanvas = new Chart(hashratchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Hash Rate',
+                  data: hashrates,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var DifficultyCanvas = new Chart(difficultychrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Difficulty',
+                  data: difficulties,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var MinersRevenueCanvas = new Chart(minersrevenuechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Miners Revenue',
+                  data: minersrevenues,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var TransactionFeesCanvas = new Chart(transactionsfeeschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transaction Fees',
+                  data: transactionfees,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var CostpertransactionpercentCanvas = new Chart(costpertranspercentchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Cost Per Transaction Percent',
+                  data: costpertransactionpercents,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var CostpertransactionCanvas = new Chart(costpertranschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Cost Per Transaction',
+                  data: costpertransactions,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NuniqueaddressesCanvas = new Chart(nuniqueaddschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Unique Addresses',
+                  data: nuniqueaddresses,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NtransactionsCanvas = new Chart(ntranschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transactions',
+                  data: ntransactions,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NtransactionstotalCanvas = new Chart(ntranstotalchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transactions Total',
+                  data: ntransactionstotals,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var NtransactionsexcludingpopCanvas = new Chart(ntranspopularchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transactions Excluding Popular',
+                  data: ntransactionsexludingpopulars,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var Ntransactionsexcluding100Canvas = new Chart(ntranslonger100chrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Transactions Excluding Long Chains',
+                  data: ntransactionsexludingchainslongerthan100s,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var OutputvolumeCanvas = new Chart(outputvolumechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Output Volume',
+                  data: outputvolumes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var EstimatedtransactionvolumeCanvas = new Chart(estimatedtransvolchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Estimated Transaction Volume',
+                  data: estimatedtransactionvolumes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var EstimatedtransactionvolumeusdCanvas = new Chart(estimatedtransvolusdchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Estimated Transaction Volume Usd',
+                  data: estimatedtransactionvolumeusds,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  },legend: {
+                    boxWidth:0,
+                    fontSize:10
+                  }
+              }
+          });
+          
+          </script>
+        
+</body>
+</html>

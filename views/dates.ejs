@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='javascript/Chart.js'></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/dates.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            body{color:black;background-color:darkcyan;font-family: verdana;
+  height: 100%;
+}
+      </style>
+ 
+        <!-- <style>
+    body{color:black;background-color:darkcyan;font-family: verdana;
+    height: 100%;
+}
+    /* h1{font-size: 48px;text-transform: uppercase;letter-spacing: 2px;text-align: center;} */
+    /* p{font-size: 16px;text-align: center;} */
+    /* table{margin-left: auto;margin-right: auto;text-align: center;} */
+    /* input{
+     background:none!important;
+     color:inherit;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     
+    border-bottom:1px solid #444;
+     cursor: pointer;
+}   */
+h1{
+  color:black;
+  padding-left:50px;
+  text-transform: capitalize;
+}
+
+.header{
+    cursor:pointer;
+}
+ul{
+	list-style:none;
+	padding:0;
+	margin: 0 0 10px 0;
+
+}
+.max,.min,.avg{
+  cursor:pointer;
+}
+.max:hover,.min:hover,.avg:hover{
+  color:lightslategray;
+  
+}
+.header:hover{
+  color:lightslategray;
+  box-shadow: 0 1px #666;
+}
+li.crypto{
+  text-transform: capitalize;
+	display:inline;
+	margin-right:10px;
+}
+li.month{
+	display:inline;
+	margin-right:10px;
+}
+li.year{
+  display:inline;
+  padding-right:10px;
+  margin-right:10px;
+  border-right: 4px solid ;
+}.dropdown{
+  display: inline;
+  margin:10px;
+  padding-bottom: 10px;
+}.dropbtn{
+  display:inline;
+}
+/* div.tablediv{
+
+  display: block;
+  overflow: auto;
+  height: 500px;
+  text-align: center;
+  
+} */
+table.data{
+  text-align: center; 
+  width:80%;
+  border : 2px solid;
+}div.charts{
+    padding-bottom:150px;
+    padding-left:50px;
+}.aggbox{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background-color: white;
+  padding: 10px;
+  border: 2px solid;
+  border-radius:4px;
+  text-align: center;
+  text-transform: capitalize;
+  width: max-content;
+}
+/* This is for hovering */
+
+.dropbtn {
+  background-color: #4d4dff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content li:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #6666ff;}
+
+/* The end */
+
+
+
+
+
+  </style>-->
+</head>
+<body>
+  
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="./">Cryptocurrency Historical Prices</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li ><a href="./">Home</a></li>
+            <li><a href="/crypto">Prices</a></li>
+            <li><a href="/datasets">Datasets</a></li>
+          </ul>
+        </div>
+      </nav>
+    
+
+    <h1>Data for <%=crypto%></h1>
+
+    <div class='charts'>
+        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='highcanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='opencanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='lowcanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='closecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='volumecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='capcanvas' width='10' height='10'></canvas>
+            </div>
+    
+          </div>
+          <div class="aggr " align='center'>
+          <div class="dropdown">
+            <button class="dropbtn">Maximum</button>
+            <ul class="dropdown-content">
+              <li class='max' name='open'>Open</li>
+              <li class='max ' name='high' >High</li>
+              <li class='max ' name='low' >Low</li>
+              <li class='max' name='close' >Close</li>
+              <li class='max' name='volume' >Volume</li>
+              <li class='max' name='marketcap' >Market Cap</li>
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Minimum</button>
+            <ul class="dropdown-content">
+              <li class='min' name='open'>Open</li>
+              <li class='min' name='high'>High</li>
+              <li class='min' name='low' >Low</li>
+              <li class='min' name='close' >Close</li>
+              <li class='min' name='volume' >Volume</li>
+              <li class='min' name='marketcap' >Market Cap</li>
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Average</button>
+            <ul class="dropdown-content">
+              <li class='avg ' name='open' >Open</li>
+              <li class='avg ' name='high' >High</li>
+              <li class='avg ' name='low' >Low</li>
+              <li class='avg ' name='close' >Close</li>
+              <li class='avg ' name='volume' >Volume</li>
+              <li class='avg ' name='marketcap' >Market Cap</li>
+          </ul>
+          </div>
+        </div>
+
+
+                          <!-- <div class="aggr " align='center'>
+                            <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle dropbtn "  type="button" data-toggle="dropdown">Maximum<span class="caret"></span></button>
+                              <ul class="dropdown-menu">
+                                  <li class='max' name='open'>Open</li>
+                                  <li class='max ' name='high' >High</li>
+                                  <li class='max ' name='low' >Low</li>
+                                  <li class='max' name='close' >Close</li>
+                                  <li class='max' name='volume' >Volume</li>
+                                  <li class='max' name='marketcap' >Market Cap</li>
+                              </ul>
+                            </div>
+                            <div class="dropdown">
+                              <button class="btn btn-primary dropdown-toggle dropbtn"  type="button" data-toggle="dropdown">Minimum<span class="caret"></span></button>
+                                <ul class="dropdown-menu ">
+                                    <li class='min' name='open'>Open</li>
+                                    <li class='min' name='high'>High</li>
+                                    <li class='min' name='low' >Low</li>
+                                    <li class='min' name='close' >Close</li>
+                                    <li class='min' name='volume' >Volume</li>
+                                    <li class='min' name='marketcap' >Market Cap</li>
+                                </ul>
+                              </div>
+                              <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle dropbtn "   type="button" data-toggle="dropdown">Average<span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li class='avg ' name='open' >Open</li>
+                                    <li class='avg ' name='high' >High</li>
+                                    <li class='avg ' name='low' >Low</li>
+                                    <li class='avg ' name='close' >Close</li>
+                                    <li class='avg ' name='volume' >Volume</li>
+                                    <li class='avg ' name='marketcap' >Market Cap</li>
+                                  </ul>
+                                </div>
+                          </div> -->
+  
+                          <%if(aggregation=='max' && max!=''){%>
+                            <%console.log('Max for '+ column + " is: " + max); %>
+                            
+                          
+                        <h4 class='aggbox text-center' align='center'>Maximum for <%=column%> is: <%=max%></h4>
+                           
+                          <%}%>
+            
+                          <%if(aggregation=='min' && max!=''){%>
+                            <%console.log('Min for '+ column + " is: " + max); %>
+                        <h4 class='aggbox text-center' align='center'>Minimum for <%=column%> is: <%=max%></h4>
+                            
+                          <%}%>
+                      
+                  
+                        <%if(aggregation=='avg' && max!='') {%>
+                          <%console.log('Avg for '+ column + " is: " + max); %>
+                      <h4 align='center' class='aggbox text-center'>Average for <%=column%> is: <%=max.toFixed(2)%></h4>
+                          
+                        <%}%>
+    <div align='center'  class='tablediv'>
+            <table class="table table-bordered data">
+            <thead class="thead-dark">
+              <tr>
+                <th class='header' >Date</th>
+                <th class='header' >Open</th>
+                <th class='header'>High</th>
+                <th class='header'>Low</th>
+                <th class='header'>Close</th>
+                <th class='header'>Volume</th>
+                <th class='header'>Market Cap</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(function(item){%>
+              <tr>
+                <td >
+                    <%item.date.setDate(item.date.getDate()-1)%>
+                  <%var modDate = item.date.getDate() ;%>
+                  <%var modMonth = item.date.getMonth() +1;%>
+                  <%if(modDate<10){%>
+                    <%='0'+ modDate +'/'+ modMonth%>
+                    <%}else{%>
+                    <%= modDate +'/'+ modMonth%>
+                    <%}%>
+
+                </td>
+                <td ><%=item.open%></td>
+                <td><%=item.high%></td>
+                <td><%=item.low%></td>
+                <td><%=item.close%></td>
+                <td><%=item.volume%></td>
+                <td><%=item.marketcap%></td>
+          
+              </tr>
+          
+              <%});%>
+            </tbody>
+          
+    
+
+    </table>
+  </div>
+
+
+
+
+    <script src='javascript/sort.js'></script>
+
+    
+
+              <script>
+              $(".max").click(function(){
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/max+/)[0];
+    // console.log(aggre+column);
+    $.post("/aggre",{column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/dates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+$(".min").click(function(){
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/min+/)[0];
+    // console.log(aggre+column);
+    $.post("/aggre",{column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/dates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+
+$(".avg").click(function(){
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/avg+/)[0];
+    // console.log(aggre);
+    $.post("/aggre",{column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/dates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+              </script>
+
+
+        <script>
+        
+        var highchrt = document.getElementById('highcanvas').getContext('2d');
+        var openchrt = document.getElementById('opencanvas').getContext('2d');
+        var lowchrt = document.getElementById('lowcanvas').getContext('2d');
+        var closechrt = document.getElementById('closecanvas').getContext('2d');
+        var volumechrt = document.getElementById('volumecanvas').getContext('2d');
+        var capchrt = document.getElementById('capcanvas').getContext('2d');
+
+        Chart.defaults.global.defaultFontColor = 'black';
+          Chart.defaults.global.legend.labels.fontSize = 11;
+
+          Chart.defaults.global.legend.labels.boxWidth = 6;
+          Chart.defaults.global.tooltips.callbacks.title = function(tooltipItem, data) {
+           return tooltipItem[0].xLabel;
+        };
+        Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+                    return   tooltipItem.yLabel;
+        };
+
+        
+        var dates= [];
+        var highs= [];
+        var opens= [];
+        var lows= [];
+        var closes =[];
+        var volumes =[];
+        var caps =[];
+        
+        <% data.forEach(function(index){%>
+          dates.push('<%=index.date.getDate()%>');
+          highs.push('<%= index.high%>');
+          opens.push('<%= index.open%>');
+          lows.push('<%= index.low%>');
+          closes.push('<%= index.close%>');
+          volumes.push('<%= index.volume%>');
+          caps.push('<%= index.marketcap%>');
+        
+          <%}) ;%>
+
+          Chart.defaults.global.defaultFontColor = 'black';
+        
+          var HighCanvas = new Chart(highchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'High',
+                  data: highs,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true
+                      }]
+                  },legend:{
+                      labels: {
+                          fontColor:'black'
+                      }
+                  }
+              }
+          });
+        
+        
+        
+          var OpenCanvas = new Chart(openchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Open',
+                  data: opens,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true
+                      }]
+                  }
+              }
+          });
+          var LowCanvas = new Chart(lowchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Low',
+                  data: lows,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true
+                      }]
+                  }
+              }
+          });
+          var CloseCanvas = new Chart(closechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Close',
+                  data: closes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true
+                      }]
+                  }
+              }
+          });
+          var VolumeCanvas = new Chart(volumechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Volume',
+                  data: volumes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var CapCanvas = new Chart(capchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Market Cap',
+                  data: caps,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value < 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+                
+          </script>
+        
+</body>
+</html>

@@ -1,0 +1,59 @@
+h1{
+    color:black;
+  }
+  h2{
+    text-transform: capitalize;
+  }
+  ul{
+      
+      padding:0;
+      margin: 0 0 10px 0;
+  
+  }
+  ul.names{
+    list-style-type: none;
+    font-size:18px;
+    margin-left: 25px;
+  }
+  li.crypto:hover{
+    color:lightslategray;
+    box-shadow: 0 1px #666;
+  }
+  li.crypto{
+    text-transform: capitalize;
+    cursor:pointer;
+      margin-right:10px;
+    width:max-content;
+  }
+  li.month{
+    cursor:pointer;
+    display:inline;
+      margin-right:10px;
+  }
+  
+  li.month:hover{
+    color:lightslategray;
+    box-shadow: 0 1px #666;
+  }
+  li.year{
+    
+    display:inline;
+    padding-right:10px;
+    margin-right:10px;
+    border-right: 4px solid ;
+  }
+  
+  div.jumbotron{ 
+    background-color: skyblue;
+   }
+  div.cry{
+  
+    width: 50%;
+    float:left;
+    
+  }
+  div.mon{
+    width:50%;
+    float: right;
+    
+  }

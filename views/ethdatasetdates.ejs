@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='javascript/Chart.js'></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/dates.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+              body{color:black;background-color:darkcyan;font-family: verdana;
+    height: 100%;
+}
+        </style>
+        <!--  <style>
+    /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+    body{color:black;background-color:darkcyan;font-family: verdana;
+    height: 100%;
+}
+    /* h1{font-size: 48px;text-transform: uppercase;letter-spacing: 2px;text-align: center;} */
+    /* p{font-size: 16px;text-align: center;} */
+    /* table{margin-left: auto;margin-right: auto;text-align: center;} */
+    /* input{
+     background:none!important;
+     color:inherit;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     
+    border-bottom:1px solid #444;
+     cursor: pointer;
+}   */
+h1{
+  color:black;
+  padding-left:50px;
+  text-transform: capitalize;
+}
+
+.header{
+    cursor:pointer;
+}
+ul{
+	list-style:none;
+	padding:0;
+	margin: 0 0 10px 0;
+
+}
+.max,.min,.avg{
+  cursor:pointer;
+}
+.max:hover,.min:hover,.avg:hover{
+  color:lightslategray;
+  
+}
+.header:hover{
+  color:lightslategray;
+  box-shadow: 0 1px #666;
+}
+li.crypto{
+  text-transform: capitalize;
+	display:inline;
+	margin-right:10px;
+}
+li.month{
+	display:inline;
+	margin-right:10px;
+}
+li.year{
+  display:inline;
+  padding-right:10px;
+  margin-right:10px;
+  border-right: 4px solid ;
+}.dropdown{
+  display: inline;
+  margin:10px;
+  padding-bottom: 10px;
+}.dropbtn{
+  display:inline;
+}
+div.tablediv{
+  white-space: nowrap;
+  margin-left: 10%;
+  margin-right: 10%;
+  width:80%;
+  
+  
+  display: block;
+  overflow: auto;
+  
+  text-align: center;
+  
+}
+table.data{
+  
+  text-align: center; 
+  border : 2px solid;
+}div.charts{
+  
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-left: 10%;
+  margin-right: 10%;
+  width:80%;
+    
+    /* padding-bottom:150px; */
+    padding-left:50px;
+    padding-right:50px;
+    margin-bottom:25px;
+}div.canv{
+  display: block;
+  /* float:left; */
+  
+  padding-bottom: 200px;
+}
+.aggbox{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  background-color: white;
+  padding: 10px;
+  border: 2px solid;
+  border-radius:4px;
+  text-align: center;
+  text-transform: capitalize;
+  width: max-content;
+}
+/* This is for hovering */
+
+.dropbtn {
+  background-color: #4d4dff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content li:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #6666ff;}
+
+/* The end */
+
+
+
+
+
+  </style> -->
+</head>
+<body>
+  
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="./">Cryptocurrency Historical Prices</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li ><a href="./">Home</a></li>
+            <li><a href="/crypto">Prices</a></li>
+            <li><a href="/datasets">Datasets</a></li>
+          </ul>
+        </div>
+      </nav>
+    
+
+    <h1>Data for <%=crypto%></h1>
+
+    <div class='charts'>
+        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='unixtimestampcanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='etherpricecanvas' width='10' height='10'></canvas>
+              </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='txcanvas' width='10' height='10'></canvas>
+            </div>
+           <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='addresscanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='supplycanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='marketcapcanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+            <canvas id='hashratecanvas' width='10' height='10'></canvas>
+            </div>
+            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='difficultycanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='blockscanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='unclescanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+              <canvas id='blocksizecanvas' width='10' height='10'></canvas>
+              </div>
+              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='blocktimecanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='gaspricecanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='gaslimitcanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                <canvas id='gasusedcanvas' width='10' height='10'></canvas>
+                </div>
+                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                  <canvas id='ethersupplycanvas' width='10' height='10'></canvas>
+                  </div>
+                  <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
+                  <canvas id='ensregistercanvas' width='10' height='10'></canvas>
+                  </div>
+    
+          </div>
+          <div class="aggr " align='center'>
+          <div class="dropdown">
+            <button class="dropbtn">Maximum</button>
+            <ul class="dropdown-content">
+              <li class='max' name='unixtimestamp'>Unix Timestamp</li>
+              <li class='max ' name='etherprice' >Ether Price</li>
+              <li class='max ' name='tx' >Tx</li>
+              <li class='max' name='address' >Address</li>
+              <li class='max' name='supply' >Sypply</li>
+              <li class='max' name='marketcap' >Market Cap</li>
+              <li class='max ' name='hashrate' >Hash Rate</li>
+              <li class='max ' name='difficulty' >Difficulty</li>
+              <li class='max ' name='blocks' >Blocks</li>
+              <li class='max ' name='uncles' >Uncles</li>
+              <li class='max ' name='blocksize' >Block Size</li>
+              <li class='max ' name='blocktime' >Block Time</li>
+              <li class='max ' name='gasprice' >Gas Price</li>
+              <li class='max ' name='gaslimit' >Gas Limit</li>
+              <li class='max ' name='gasused' >Gas Used</li>
+              <li class='max ' name='ethersupply' >Ether Sypply</li>
+              <li class='max ' name='ensregister' >Ens Register</li>
+
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Minimum</button>
+            <ul class="dropdown-content">
+              <li class='min' name='unixtimestamp'>Unix Timestamp</li>
+              <li class='min ' name='etherprice' >Ether Price</li>
+              <li class='min' name='tx' >Tx</li>
+              <li class='min' name='address' >Address</li>
+              <li class='min' name='supply' >Sypply</li>
+              <li class='min' name='marketcap' >Market Cap</li>
+              <li class='min ' name='hashrate' >Hash Rate</li>
+              <li class='min ' name='difficulty' >Difficulty</li>
+              <li class='min ' name='blocks' >Blocks</li>
+              <li class='min ' name='uncles' >Uncles</li>
+              <li class='min ' name='blocksize' >Block Size</li>
+              <li class='min ' name='blocktime' >Block Time</li>
+              <li class='min ' name='gasprice' >Gas Price</li>
+              <li class='min ' name='gaslimit' >Gas Limit</li>
+              <li class='min ' name='gasused' >Gas Used</li>
+              <li class='min ' name='ethersupply' >Ether Sypply</li>
+              <li class='min ' name='ensregister' >Ens Register</li>
+          </ul>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropbtn">Average</button>
+            <ul class="dropdown-content">
+              <li class='avg' name='unixtimestamp'>Unix Timestamp</li>
+              <li class='avg ' name='etherprice' >Ether Price</li>
+              <li class='avg ' name='tx' >Tx</li>
+              <li class='avg' name='address' >Address</li>
+              <li class='avg' name='supply' >Sypply</li>
+              <li class='avg' name='marketcap' >Market Cap</li>
+              <li class='avg ' name='hashrate' >Hash Rate</li>
+              <li class='avg ' name='difficulty' >Difficulty</li>
+              <li class='avg ' name='blocks' >Blocks</li>
+              <li class='avg ' name='uncles' >Uncles</li>
+              <li class='avg ' name='blocksize' >Block Size</li>
+              <li class='avg ' name='blocktime' >Block Time</li>
+              <li class='avg ' name='gasprice' >Gas Price</li>
+              <li class='avg ' name='gaslimit' >Gas Limit</li>
+              <li class='avg ' name='gasused' >Gas Used</li>
+              <li class='avg ' name='ethersupply' >Ether Sypply</li>
+              <li class='avg ' name='ensregister' >Ens Register</li>
+          </ul>
+          </div>
+        </div>
+
+
+                        
+  
+                          <%if(aggregation=='max' && max!=''){%>
+                            <%console.log('Max for '+ column + " is: " + max); %>
+                            
+                          
+                        <h4 class='aggbox text-center' align='center'>Maximum for <%=text%> is: <%=max%></h4>
+                           
+                          <%}%>
+            
+                          <%if(aggregation=='min' && max!=''){%>
+                            <%console.log('Min for '+ column + " is: " + max); %>
+                        <h4 class='aggbox text-center' align='center'>Minimum for <%=text%> is: <%=max%></h4>
+                            
+                          <%}%>
+                      
+                  
+                        <%if(aggregation=='avg' && max!='') {%>
+                          <%console.log('Avg for '+ column + " is: " + max); %>
+                      <h4 align='center' class='aggbox text-center'>Average for <%=text%> is: <%=max.toFixed(2)%></h4>
+                          
+                        <%}%>
+    <div align='center'  class='tablediv'>
+            <table class="table table-bordered data">
+            <thead class="thead-dark">
+              <tr>
+                <th class='header' >Date</th>
+                <th class='header' >Unix Timestamp</th>
+                <th class='header'>Ether Price</th>
+                <th class='header'>Tx</th>
+                <th class='header'>Address</th>
+                <th class='header'>Supply</th>
+                <th class='header'>Market Cap</th>
+                <th class='header'>Hash Rate</th>
+                <th class='header'>Difficulty</th>
+                <th class='header'>Blocks</th>
+                <th class='header'>Uncles</th>
+                <th class='header'>Block Size</th>
+                <th class='header'>Block Time</th>
+                <th class='header'>Gas Price</th>
+                <th class='header'>Gas Limit</th>
+                <th class='header'>Gas Used</th>
+                <th class='header'>Ether Supply</th>
+                <th class='header'>Ens Register</th>
+
+              </tr>
+            </thead>
+            <tbody>
+            <% data.forEach(function(item){%>
+              <tr>
+                <td >
+                    <%item.date.setDate(item.date.getDate()-1)%>
+                  <%var modDate = item.date.getDate() ;%>
+                  <%var modMonth = item.date.getMonth() +1;%>
+                  <%if(modDate<10){%>
+                    <%='0'+ modDate +'/'+ modMonth%>
+                    <%}else{%>
+                    <%= modDate +'/'+ modMonth%>
+                    <%}%>
+
+                </td>
+                <td><%=item.unixtimestamp%></td>
+                <td ><%=item.etherprice%></td>
+                <td><%=item.tx%></td>
+                <td><%=item.address%></td>
+                <td><%=item.supply%></td>
+                <td><%=item.marketcap%></td>
+                <td><%=item.hashrate%></td>
+                <td><%=item.difficulty%></td>
+                <td><%=item.blocks%></td>
+                <td><%=item.uncles%></td>
+                <td><%=item.blocksize%></td>
+                <td><%=item.blocktime%></td>
+                <td><%=item.gasprice%></td>
+                <td><%=item.gaslimit%></td>
+                <td><%=item.gasused%></td>
+                <td><%=item.ethersupply%></td>
+                <%if(item.ensregister){%>
+                <td><%=item.ensregister%></td>
+                <%}else{%>
+                <td>-</td>
+                <%}%>
+              </tr>
+          
+              <%});%>
+            </tbody>
+          
+    
+
+    </table>
+  </div>
+
+
+
+
+    <script src='javascript/sort.js'></script>
+
+    
+
+              <script>
+              $(".max").click(function(){
+                var text = $(this).text();
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/max+/)[0];
+    // console.log(aggre+column);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/ethdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+$(".min").click(function(){
+    var text = $(this).text();
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/min+/)[0];
+    // console.log(aggre+column);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/ethdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+
+$(".avg").click(function(){
+    var text =$(this).text()
+    var column=$(this).attr('name');
+    var aggre =$(this).attr('class').match(/avg+/)[0];
+    // console.log(aggre);
+    $.post("/datasetaggre",{text:text,column:column,aggre:aggre},function(data){
+        if(data==='done')
+        {
+            window.location.href="/ethdatasetdates";
+        }
+    });
+
+  // $.ajax({
+  //   type: "POST",
+  //   data: {crypto:crypto,cryptos:cryptos},
+  //   url: "months",
+  //   success: function(msg){
+  //     console.log(cryptos);
+  //     window.location.href="/months";
+  //   }
+  // });
+});
+              </script>
+
+
+        <script>
+        
+        var unixtimestampchrt = document.getElementById('unixtimestampcanvas').getContext('2d');
+        var etherpricechrt = document.getElementById('etherpricecanvas').getContext('2d');
+        var txchrt = document.getElementById('txcanvas').getContext('2d');
+        var addresschrt = document.getElementById('addresscanvas').getContext('2d');
+        var supplychrt = document.getElementById('supplycanvas').getContext('2d');
+        var marketcapchrt = document.getElementById('marketcapcanvas').getContext('2d');
+        var hashratechrt = document.getElementById('hashratecanvas').getContext('2d');
+        var difficultychrt = document.getElementById('difficultycanvas').getContext('2d');
+        var blockschrt = document.getElementById('blockscanvas').getContext('2d');
+        var uncleschrt = document.getElementById('unclescanvas').getContext('2d');
+        var blocksizechrt = document.getElementById('blocksizecanvas').getContext('2d');
+        
+        var blocktimechrt = document.getElementById('blocktimecanvas').getContext('2d');
+        var gaspricechrt = document.getElementById('gaspricecanvas').getContext('2d');
+        var gaslimitchrt = document.getElementById('gaslimitcanvas').getContext('2d');
+        var gasusedchrt = document.getElementById('gasusedcanvas').getContext('2d');
+        var ethersupplychrt = document.getElementById('ethersupplycanvas').getContext('2d');
+        var ensregisterchrt = document.getElementById('ensregistercanvas').getContext('2d');
+
+        Chart.defaults.global.defaultFontColor = 'black';
+          Chart.defaults.global.legend.labels.fontSize = 11;
+
+          Chart.defaults.global.legend.labels.boxWidth = 6;
+          Chart.defaults.global.tooltips.callbacks.title = function(tooltipItem, data) {
+           return tooltipItem[0].xLabel;
+        };
+        Chart.defaults.global.tooltips.callbacks.label = function(tooltipItem, data) {
+                    return   tooltipItem.yLabel;
+        };
+
+        
+        
+        var dates= [];
+        var unixtimestamps= [];
+        var etherprices= [];
+        var txs= [];
+        var addresses =[];
+        var supplies =[];
+        var marketcaps =[];
+        var hashrates= [];
+        var difficulties= [];
+        var blocks= [];
+        var uncles= [];
+        var blocksizes =[];
+        var blocktimes =[];
+        var gasprices =[];
+        var gaslimits= [];
+        var gasuseds= [];
+        var ethersupplies= [];
+        var ensregisters= [];
+        
+        <% data.forEach(function(index){%>
+          dates.push('<%=index.date.getDate()%>');
+          unixtimestamps.push('<%= index.unixtimestamp%>');
+          etherprices.push('<%=index.etherprice%>');
+          txs.push('<%= index.tx%>');
+          addresses.push('<%= index.address%>');
+          supplies.push('<%= index.supply%>');
+          marketcaps.push('<%= index.marketcap%>');
+          hashrates.push('<%= index.hashrate%>');
+          difficulties.push('<%=index.difficulty%>');
+          blocks.push('<%= index.blocks%>');
+          uncles.push('<%= index.uncles%>');
+          blocksizes.push('<%= index.blocksize%>');
+          blocktimes.push('<%= index.blocktime%>');
+          gasprices.push('<%= index.gasprice%>');
+          gaslimits.push('<%=index.gaslimit%>');
+          gasuseds.push('<%= index.gasused%>');
+          ethersupplies.push('<%= index.ethersupply%>');
+          ensregisters.push('<%= index.ensregister%>');
+        
+          <%}) ;%>
+
+          Chart.defaults.global.defaultFontColor = 'black';
+        
+          var UnixtimestampCanvas = new Chart(unixtimestampchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Unix Timestamp',
+                  data: unixtimestamps,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  },legend:{
+                      labels: {
+                          fontColor:'black'
+                      }
+                  }
+              }
+          });
+        
+          var EtherpriceCanvas = new Chart(etherpricechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Ether Price',
+                  data: etherprices,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var TxCanvas = new Chart(txchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Tx',
+                  data: txs,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var AddressCanvas = new Chart(addresschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Address',
+                  data: addresses,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var SupplyCanvas = new Chart(supplychrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Supply',
+                  data: supplies,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var CapCanvas = new Chart(marketcapchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Market Cap',
+                  data: marketcaps,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value < 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var HashrateCanvas = new Chart(hashratechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Hash Rate',
+                  data: hashrates,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var DifficultyCanvas = new Chart(difficultychrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Difficulty',
+                  data: difficulties,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var BlocksCanvas = new Chart(blockschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Blocks',
+                  data: blocks,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var UnclesCanvas = new Chart(uncleschrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Uncles',
+                  data: uncles,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var BlocksizeCanvas = new Chart(blocksizechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Blocksize',
+                  data: blocksizes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var BlocktimeCanvas = new Chart(blocktimechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Block Time',
+                  data: blocktimes,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var GaspriceCanvas = new Chart(gaspricechrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Gas Price',
+                  data: gasprices,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var GaslimitCanvas = new Chart(gaslimitchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Gas Limit',
+                  data: gaslimits,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var GasusedCanvas = new Chart(gasusedchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Gas Used',
+                  data: gasuseds,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var EthersupplyCanvas = new Chart(ethersupplychrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Ether Supply',
+                  data: ethersupplies,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+          var EnsregisterCanvas = new Chart(ensregisterchrt,{
+              type: 'line',
+              data: {
+              labels: dates,
+              datasets: [{
+                  label: 'Ens Register',
+                  data: ensregisters,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+            },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          stacked: true,
+                          ticks: {
+                    // Abbreviate the millions
+                    callback: function(value, index, values) {
+                      if(value< 1000){
+                        return value;
+                      }else if(value>=1000 && value<1000000 ){
+                        return value / 1e3 + 'K';
+                      }else if(value>=1000000 && value<1000000000){
+                        return value / 1e6 + 'M';
+                      }else{
+                        return value / 1e9 + 'B';
+                      }
+                    }
+                }
+                      }]
+                  }
+              }
+          });
+      
+          
+          </script>
+        
+</body>
+</html>
