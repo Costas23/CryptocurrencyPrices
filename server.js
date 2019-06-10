@@ -10,6 +10,7 @@ var dbname = process.env.DBNAME;
 const mongoose = require('mongoose');
 
 const url = 'mongodb://' + dbusername + ':' + dbpassword + '@ds1' + dbnumber + '.mlab.com:' + dbnumber + '/' + dbname;
+// const url = 'mongodb://Testuser:TestPass12@ds111754.mlab.com:11754/cryptocurrencies';
 
 const express = require('express');
 const bodyparser = require('body-parser');
