@@ -4,17 +4,13 @@ var dbusername = process.env.DBUSERNAME;
 var dbpassword = process.env.DBPASSWORD;
 var dbnumber = process.env.DBNUMBER;
 var dbname = process.env.DBNAME;
-// var env = process.env.NODE_ENV || 'development';
-// var config = require('./config')[env];
+
 
 
 const mongoose = require('mongoose');
-// const MongoClient = require('mongodb').MongoClient;
-// const url = 'mongodb://Kostas23:Corazon2393@ds159216.mlab.com:59216/testcrypto4';
-const url = 'mongodb://' + dbusername + ':' + dbpassword + '@ds1' + dbnumber + '.mlab.com:' + dbnumber + '/' + dbname;
-// const url = 'mongodb://Testuser:TestPass12@ds111754.mlab.com:11754/cryptocurrencies'
 
-// const url = "mongodb://localhost:27017/testingcrypto";
+const url = 'mongodb://' + dbusername + ':' + dbpassword + '@ds1' + dbnumber + '.mlab.com:' + dbnumber + '/' + dbname;
+
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
@@ -39,18 +35,17 @@ var sess;
 setInterval(function () {
   var shell = require('shelljs');
   shell.exec("python downloadcryptos.py", function (code, stdout, stderr) {
-    // console.log('Exit code:', code);
-    // console.log('Program output:', stdout);
-    // console.log('Program stderr:', stderr);
+    console.log(stderr);
 
     strArr = stdout.split('\n');
     strArr2 = strArr.splice(0, 3);
     strArr.forEach(function (item) {
-      // console.log(item);
     })
 
   })
-}, 1000 * 60 * 60 * 24 * 7);
+}, 
+1000 * 60 * 60 * 24 * 7);
+
 
 
 app.get('/', function (req, res) {
@@ -348,7 +343,9 @@ app.get('/bitdatasetdates', function (req, res) {
 
           datesArr = [];
           result.dates.forEach(function (item) {
+            item.date.setDate(item.date.getDate()-1);
             datesArr.push(item);
+            console.log(item.date);
           })
           sess.result = datesArr;
 

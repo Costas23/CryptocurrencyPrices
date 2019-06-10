@@ -61,6 +61,7 @@ if os.path.exists("csvnames.txt"):
         print("They are the same")
         if os.path.exists("csvupdate.txt"):
             os.remove("csvupdate.txt")
+            print("It exists")
         else:
             print("The file does not exist")
     else:

@@ -305,15 +305,14 @@ table.data{
             <% data.forEach(function(item){%>
               <tr>
                 <td >
-                    <%item.date.setDate(item.date.getDate()-1)%>
-                  <%var modDate = item.date.getDate() ;%>
-                  <%var modMonth = item.date.getMonth() +1;%>
-                  <%if(modDate<10){%>
-                    <%='0'+ modDate +'/'+ modMonth%>
-                    <%}else{%>
-                    <%= modDate +'/'+ modMonth%>
-                    <%}%>
-
+                    <%var modDate = item.date.getDate() ;%>
+                    <%var modMonth = item.date.getMonth() +1;%>
+                    <%var modYear = item.date.getFullYear();%>
+                    <%if(modDate<10){%>
+                      <%='0'+ modDate +'/'+ modMonth + '/' + modYear%>
+                      <%}else{%>
+                      <%= modDate +'/'+ modMonth + '/'+ modYear%>
+                      <%}%>
                 </td>
                 <td ><%=item.open%></td>
                 <td><%=item.high%></td>

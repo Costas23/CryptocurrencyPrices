@@ -432,13 +432,18 @@ table.data{
             <% data.forEach(function(item){%>
               <tr>
                 <td >
-                    <%item.date.setDate(item.date.getDate()-1)%>
+                  
                   <%var modDate = item.date.getDate() ;%>
                   <%var modMonth = item.date.getMonth() +1;%>
-                  <%if(modDate<10){%>
-                    <%='0'+ modDate +'/'+ modMonth%>
+                  <%var modYear = item.date.getFullYear();%>
+                  <%if(modDate<10 && modMonth<10){%>
+                      <%='0'+ modDate +'/0'+ modMonth + '/' + modYear%>
+                    <%}else if(modDate>=10 && modMonth<10){%>
+                      <%= modDate +'/0'+ modMonth + '/'+ modYear%>
+                    <%}else if(modDate<10 && modMonth>=10){%>
+                      <%= '0' + modDate +'/'+ modMonth + '/'+ modYear%>
                     <%}else{%>
-                    <%= modDate +'/'+ modMonth%>
+                      <%= modDate +'/'+ modMonth + '/'+ modYear%>
                     <%}%>
 
                 </td>

@@ -2,27 +2,16 @@ var fs = require('fs');
 var parse = require('csv-parse');
 var csv = require('fast-csv');
 let dateandtime = require('date-and-time');
-// var asynch = require('asynch');
 const mongoose = require('mongoose');
-// var asynckit = require('async-kit');
-// var Promise = require("promise");
-// var Month = require('./months');
-// var Date = require('./months');
-// var exp = require('./months');
 const Schema = mongoose.Schema;
 var dbusername = process.env.DBUSERNAME;
 var dbpassword = process.env.DBPASSWORD;
 var dbnumber = process.env.DBNUMBER;
 var dbname = process.env.DBNAME;
-// const url = 'mongodb://Kostas23:Corazon2393@ds159216.mlab.com:59216/testcrypto4';
-// const url = 'mongodb://Testuser:TestPass12@ds111754.mlab.com:11754/cryptocurrencies'
-const url = 'mongodb://'+dbname+':'+dbpassword+'@ds1'+dbnumber+'.mlab.com:'+dbnumber+'/'+dbname; 
+const url = 'mongodb://'+dbname+':'+dbpassword+'@ds1'+dbnumber+'.mlab.com:'+dbnumber+'/'+dbname;
 
 const DateSchema = new Schema({
-    date:
-        //String
-        Schema.Types.Date
-    ,
+    date:Schema.Types.Date,
     open: Number,
     high: Number,
     low: Number,
@@ -71,10 +60,7 @@ const BitDatasetMonthSchema = new Schema({
 });
 
 const EthDatasetDateSchema = new Schema({
-    date:
-        //String
-        Schema.Types.Date
-    ,
+    date:Schema.Types.Date,
     unixtimestamp: Number,
     etherprice: Number,
     tx: Number,
@@ -104,26 +90,13 @@ const EthDatasetMonthSchema = new Schema({
 const CrDate = mongoose.model('date', DateSchema);
 const BitCrDate = mongoose.model('bdate', BitDatasetDateSchema);
 const EthCrDate = mongoose.model('edate', EthDatasetDateSchema);
-// mongoose.connect('mongodb://localhost/testingcrypto',{ useNewUrlParser: true },function(){
-
-// var db = mongoose.connect("mongodb://localhost:27017/testingcrypto", { useNewUrlParser: true }, function () {
-var db = mongoose.connect(url, { useNewUrlParser: true }, function () {
 
 
-    // });
-    // mongoose.connection.once('open', function () {
-    //     console.log('Connection made');
-    // }).on('error', function (error) {
-    //     console.log('Connection error:', error);
-    // }).then(function () {
-
-
-
+mongoose.connect(url, { useNewUrlParser: true }, function () {
 
     var arr = new Array();
     var arr2 = [];
 
-    // try {
     if (fs.existsSync('csvupdate.txt')) {
 
         fs.readFileSync('csvupdate.txt').toString().split('\n').forEach(function (line) { arr.push(line); })
@@ -192,12 +165,7 @@ function createCollections(item) {
         mongoose.connection.dropCollection(cappedTxt, function (err, result) {
 
             if (err) {
-
-                console.log("error delete collection");
-
-            } else {
-
-                console.log("delete collection success");
+                console.log(err);
 
             }
 
@@ -288,9 +256,6 @@ function createCollections(item) {
                 }
 
 
-
-                //Mongodb creating models
-
                 var Month = mongoose.model('month', MonthSchema, cappedTxt);
 
                 monthsColl.months.forEach(function (mon) {
@@ -368,11 +333,7 @@ function createCollections(item) {
 
             if (err) {
 
-                console.log("error delete collection");
-
-            } else {
-
-                console.log("delete collection success");
+                console.log(err);
 
             }
 
@@ -487,21 +448,21 @@ function createCollections(item) {
                                     if (record.title == monString) {
                                         var bdate = new BitCrDate({
                                             date: dt,
-                                            marketprice: parseInt(dateItem.marketprice),
+                                            marketprice: parseFloat(dateItem.marketprice),
                                             totalbitcoins: parseInt(dateItem.totalbitcoins),
-                                            marketcap: parseInt(dateItem.marketcap),
-                                            tradevolume: parseInt(dateItem.tradevolume),
-                                            blockssize: parseInt(dateItem.blockssize),
+                                            marketcap: parseFloat(dateItem.marketcap),
+                                            tradevolume: parseFloat(dateItem.tradevolume),
+                                            blockssize: parseFloat(dateItem.blockssize),
                                             avgblocksize: parseFloat(dateItem.avgblocksize),
                                             norphanedblocks: parseInt(dateItem.norphanedblocks),
-                                            ntransactionsperblock: parseInt(dateItem.ntransactionsperblock),
-                                            medianconfirmationtime: parseInt(dateItem.medianconfirmationtime),
+                                            ntransactionsperblock: parseFloat(dateItem.ntransactionsperblock),
+                                            medianconfirmationtime: parseFloat(dateItem.medianconfirmationtime),
                                             hashrate: parseFloat(dateItem.hashrate),
                                             difficulty: parseFloat(dateItem.difficulty),
-                                            minersrevenue: parseInt(dateItem.minersrevenue),
-                                            transactionfees: parseInt(dateItem.transactionfees),
+                                            minersrevenue: parseFloat(dateItem.minersrevenue),
+                                            transactionfees: parseFloat(dateItem.transactionfees),
                                             costpertransactionpercent: parseFloat(dateItem.costpertransactionpercent),
-                                            costpertransaction: parseInt(dateItem.costpertransaction),
+                                            costpertransaction: parseFloat(dateItem.costpertransaction),
                                             nuniqueaddresses: parseInt(dateItem.nuniqueaddresses),
                                             ntransactions: parseInt(dateItem.ntransactions),
                                             ntransactionstotal: parseInt(dateItem.ntransactionstotal),
@@ -544,14 +505,9 @@ function createCollections(item) {
 
             if (err) {
 
-                console.log("error delete collection");
-
-            } else {
-
-                console.log("delete collection success");
+                console.log(err);
 
             }
-
         });
 
 
