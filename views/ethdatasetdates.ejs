@@ -389,14 +389,18 @@ table.data{
             <% data.forEach(function(item){%>
               <tr>
                 <td >
-                    <%var modDate = item.date.getDate() ;%>
-                    <%var modMonth = item.date.getMonth() +1;%>
-                    <%var modYear = item.date.getFullYear();%>
-                    <%if(modDate<10){%>
-                      <%='0'+ modDate +'/'+ modMonth + '/' + modYear%>
-                      <%}else{%>
+                  <%var modDate = item.date.getDate() ;%>
+                  <%var modMonth = item.date.getMonth() +1;%>
+                  <%var modYear = item.date.getFullYear();%>
+                  <%if(modDate<10 && modMonth<10){%>
+                      <%='0'+ modDate +'/0'+ modMonth + '/' + modYear%>
+                    <%}else if(modDate>=10 && modMonth<10){%>
+                      <%= modDate +'/0'+ modMonth + '/'+ modYear%>
+                    <%}else if(modDate<10 && modMonth>=10){%>
+                      <%= '0' + modDate +'/'+ modMonth + '/'+ modYear%>
+                    <%}else{%>
                       <%= modDate +'/'+ modMonth + '/'+ modYear%>
-                      <%}%>
+                    <%}%>
                 </td>
                 <td><%=item.unixtimestamp%></td>
                 <td ><%=item.etherprice%></td>
@@ -415,7 +419,6 @@ table.data{
                 <td><%=item.gasused%></td>
                 <td><%=item.ethersupply%></td>
                 <td><%=item.ensregister%></td>
-                <%}%>
               </tr>
           
               <%});%>
