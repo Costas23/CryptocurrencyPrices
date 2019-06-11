@@ -208,60 +208,60 @@ table.data{
         </div>
       </nav>
     
-
-    <h1>Data for <%=crypto%></h1>
+    <div class='container'>
+    <h1 class='page-header'>Data for <%=crypto%></h1>
 
     <div class='charts'>
-        <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='unixtimestampcanvas' width='10' height='10'></canvas>
+        <div class='col canv' style="display:inline-block">
+            <canvas id='unixtimestampcanvas' width='200' height='200'></canvas>
             </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-              <canvas id='etherpricecanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+              <canvas id='etherpricecanvas' width='200' height='200'></canvas>
               </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='txcanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+            <canvas id='txcanvas' width='200' height='200'></canvas>
             </div>
-           <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='addresscanvas' width='10' height='10'></canvas>
+           <div class='col canv' style="display:inline-block">
+            <canvas id='addresscanvas' width='200' height='200'></canvas>
             </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='supplycanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+            <canvas id='supplycanvas' width='200' height='200'></canvas>
             </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='marketcapcanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+            <canvas id='marketcapcanvas' width='200' height='200'></canvas>
             </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-            <canvas id='hashratecanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+            <canvas id='hashratecanvas' width='200' height='200'></canvas>
             </div>
-            <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-              <canvas id='difficultycanvas' width='10' height='10'></canvas>
+            <div class='col canv' style="display:inline-block">
+              <canvas id='difficultycanvas' width='200' height='200'></canvas>
               </div>
-              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-              <canvas id='blockscanvas' width='10' height='10'></canvas>
+              <div class='col canv' style="display:inline-block">
+              <canvas id='blockscanvas' width='200' height='200'></canvas>
               </div>
-              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-              <canvas id='unclescanvas' width='10' height='10'></canvas>
+              <div class='col canv' style="display:inline-block">
+              <canvas id='unclescanvas' width='200' height='200'></canvas>
               </div>
-              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-              <canvas id='blocksizecanvas' width='10' height='10'></canvas>
+              <div class='col canv' style="display:inline-block">
+              <canvas id='blocksizecanvas' width='200' height='200'></canvas>
               </div>
-              <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                <canvas id='blocktimecanvas' width='10' height='10'></canvas>
+              <div class='col canv' style="display:inline-block">
+                <canvas id='blocktimecanvas' width='200' height='200'></canvas>
                 </div>
-                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                <canvas id='gaspricecanvas' width='10' height='10'></canvas>
+                <div class='col canv' style="display:inline-block">
+                <canvas id='gaspricecanvas' width='200' height='200'></canvas>
                 </div>
-                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                <canvas id='gaslimitcanvas' width='10' height='10'></canvas>
+                <div class='col canv' style="display:inline-block">
+                <canvas id='gaslimitcanvas' width='200' height='200'></canvas>
                 </div>
-                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                <canvas id='gasusedcanvas' width='10' height='10'></canvas>
+                <div class='col canv' style="display:inline-block">
+                <canvas id='gasusedcanvas' width='200' height='200'></canvas>
                 </div>
-                <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                  <canvas id='ethersupplycanvas' width='10' height='10'></canvas>
+                <div class='col canv' style="display:inline-block">
+                  <canvas id='ethersupplycanvas' width='200' height='200'></canvas>
                   </div>
-                  <div class='col canv' style="display:inline-block;height:7vh; width:15vw">
-                  <canvas id='ensregistercanvas' width='10' height='10'></canvas>
+                  <div class='col canv' style="display:inline-block">
+                  <canvas id='ensregistercanvas' width='200' height='200'></canvas>
                   </div>
     
           </div>
@@ -428,7 +428,7 @@ table.data{
 
     </table>
   </div>
-
+</div>
 
 
 
@@ -610,7 +610,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -663,7 +663,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -711,7 +711,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -759,7 +759,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -807,7 +807,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -855,7 +855,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -903,7 +903,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -951,7 +951,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -999,7 +999,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1047,7 +1047,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1095,7 +1095,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1143,7 +1143,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1191,7 +1191,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1239,7 +1239,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1287,7 +1287,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1335,7 +1335,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,
@@ -1383,7 +1383,7 @@ $(".avg").click(function(){
                   borderWidth: 1
               }]
             },
-              options: {
+              options: { maintainAspectRation:true,
                   scales: {
                       yAxes: [{
                           stacked: true,

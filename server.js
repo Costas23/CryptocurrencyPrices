@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 const url = 'mongodb://' + dbusername + ':' + dbpassword + '@ds1' + dbnumber + '.mlab.com:' + dbnumber + '/' + dbname;
 
 
+
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
@@ -134,13 +135,11 @@ app.get('/dates', function (req, res) {
           if (err) throw err;
           datesArr = [];
 
-          // console.log('Prices dates');
           result.forEach(function (item) {
             item.dates.forEach(function (item2) {
               // item2.date.setDate(item2.date.getDate()-1);
               datesArr.push(item2);
-              
-              // console.log(item2.date);
+
             })
           })
           sess.result = datesArr;
@@ -307,13 +306,12 @@ app.get('/ethdatasetdates', function (req, res) {
         collection.findOne({ 'title': sess.monthtitle }, function (err, result) {
           if (err) throw err;
           datesArr = [];
-          console.log('Ethereum Dataset dates');
           result.dates.forEach(function (item) {
             // item.date.setDate(item.date.getDate()-1);
             datesArr.push(item);
             
             
-            console.log(item.date);
+
           })
           sess.result = datesArr;
           res.render('ethdatasetdates', { data: sess.result, crypto: sess.dataset, max: sess.dates, aggregation: sess.aggregation, column: sess.column, text: sess.text });
@@ -352,12 +350,10 @@ app.get('/bitdatasetdates', function (req, res) {
           if (err) throw err;
 
           datesArr = [];
-          // console.log('Bitcoin Dataset dates');
           result.dates.forEach(function (item) {
             // item.date.setDate(item.date.getDate()-1);
             datesArr.push(item);
             
-            // console.log(item.date);
           })
           sess.result = datesArr;
 

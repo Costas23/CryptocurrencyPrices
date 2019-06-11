@@ -36,7 +36,7 @@
       </nav>
   <!-- <div class='jumbotron jumbotron-fluid'> -->
     <div class='container cry'>
-      <h2>Choose a cryptocurrency name:</h2>
+      <h2 class='page-header'>Choose a cryptocurrency name:</h2>
     <ul class='names'>
     <% cryptonames.sort(function(a,b){if(a>b)return 1; if(a<b) return -1;return 0}); %>
     <% cryptonames.forEach(function(item){%>
@@ -51,7 +51,7 @@
   <div class='container mon'>
     <%if(data!=''){%>
 
-    <h2>Choose a month for <%=crypto%>:</h2>
+    <h2 class='page-header'>Choose a month for <%=crypto%>:</h2>
     <%years.forEach(function(item){%>
       
       <ul class='names'>
