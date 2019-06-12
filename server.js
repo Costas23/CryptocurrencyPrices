@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
 
 
 
-app.get('/crypto', function (req, res) {
+app.get('/prices', function (req, res) {
   sess = req.session;
   if (sess.crypto || sess.crypto == "") {
     mongoose.connect(url, { useNewUrlParser: true }, function (err, db) {
@@ -110,7 +110,7 @@ app.get('/crypto', function (req, res) {
   }
 });
 
-app.post('/crypto', function (req, res) {
+app.post('/prices', function (req, res) {
   sess = req.session;
   sess.crypto = req.body.crypto;
   sess.cryptos = req.body.cryptos;

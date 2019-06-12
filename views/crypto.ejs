@@ -5,19 +5,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/cryptos.css">
   <style>
     body{color:black;background-color: darkcyan; font-family: verdana;}
-    /* h1{font-size: 48px;text-transform: uppercase;letter-spacing: 2px;text-align: center;} */
-    /* p{font-size: 16px;text-align: center;} */
-    /* table{margin-left: auto;margin-right: auto;text-align: center;} */
-    /* input{
-     background:none!important;
-     color:inherit;
-     border:none;
-     padding:0!important;
-     font: inherit;
-     border is optional
-     border-bottom:1px solid #444;
-     cursor: pointer;
-} */
+
 </style>
 </head>
 <body>
@@ -29,7 +17,7 @@
           </div>
           <ul class="nav navbar-nav ">
             <li ><a href="./">Home</a></li>
-            <li class="active"><a href="/crypto">Prices</a></li>
+            <li class="active"><a href="/prices">Prices</a></li>
             <li ><a href="/datasets">Datasets</a></li>
           </ul>
         </div>
@@ -79,23 +67,16 @@ $(".crypto").click(function(){
     <%});%>
 
 
-    $.post("/crypto",{cryptos:cryptos,crypto:crypto},function(data){
+    $.post("/prices",{cryptos:cryptos,crypto:crypto},function(data){
         if(data==='done')
         {
-            window.location.href="/crypto";
+            window.location.href="/prices";
         }
     });
 });
 
 $(".month").click(function(){
-    if ($(this).text()=='Every Month'){
-      $.post("/everymonthdates",{year:$(this).attr('name')},function(data){
-        if(data==='done')
-        {
-            window.location.href="/everymonthdates";
-        }
-      });
-    }else{
+
     var month=$(this).text();
     var year = $(this).attr('name');
     console.log(year+"/"+month);
@@ -107,7 +88,7 @@ $(".month").click(function(){
             window.location.href="/dates";
         }
     });
-    }
+    
 });
 </script>
 </body>
