@@ -306,8 +306,8 @@ table.data{
               <li class='max ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
               <li class='max ' name='ntransactions' >Number Of Transactions</li>
               <li class='max ' name='ntransactionstotal' >Number Of Transactions Total</li>
-              <li class='max ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
-              <li class='max ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='max ' name='ntransactionsexcludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='max ' name='ntransactionsexcludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
               <li class='max ' name='outputvolume' >Output Volume</li>
               <li class='max ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
               <li class='max ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
@@ -336,8 +336,8 @@ table.data{
               <li class='min ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
               <li class='min ' name='ntransactions' >Number Of Transactions</li>
               <li class='min ' name='ntransactionstotal' >Number Of Transactions Total</li>
-              <li class='min ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
-              <li class='min ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='min ' name='ntransactionsexcludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='min ' name='ntransactionsexcludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
               <li class='min ' name='outputvolume' >Output Volume</li>
               <li class='min ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
               <li class='min ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
@@ -365,8 +365,8 @@ table.data{
               <li class='avg ' name='nuniqueaddresses' >Number Of Unique Addresses</li>
               <li class='avg ' name='ntransactions' >Number Of Transactions</li>
               <li class='avg ' name='ntransactionstotal' >Number Of Transactions Total</li>
-              <li class='avg ' name='ntransactionsexludingpopular' >Number Of Transactions Exluding Popular</li>
-              <li class='avg ' name='ntransactionsexludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
+              <li class='avg ' name='ntransactionsexcludingpopular' >Number Of Transactions Exluding Popular</li>
+              <li class='avg ' name='ntransactionsexcludingchainslongerthan100' >Number Of Transactions Excluding Chains Longer Than 100</li>
               <li class='avg ' name='outputvolume' >Output Volume</li>
               <li class='avg ' name='estimatedtransactionvolume' >Estimated Transaction Volume</li>
               <li class='avg ' name='estimatedtransactionvolumeusd' >Estimated Transaction Volume Usd</li>
@@ -381,21 +381,24 @@ table.data{
                             <%console.log('Max for '+ column + " is: " + max); %>
                             
                           
-                        <h4 class='aggbox text-center' align='center'>Maximum for <%=text%> is: <%=max%></h4>
-                           
+                        <h4 class='aggbox text-center' align='center'>The Maximum of <%=text%> is: <%=max%></h4>
+                        <%}else if(aggregation=='max' && max==''){%>
+                          <h4 align='center' class='aggbox text-center'>The Maximum of <%=text%> is: 0</h4>
                           <%}%>
             
                           <%if(aggregation=='min' && max!=''){%>
                             <%console.log('Min for '+ column + " is: " + max); %>
-                        <h4 class='aggbox text-center' align='center'>Minimum for <%=text%> is: <%=max%></h4>
-                            
+                        <h4 class='aggbox text-center' align='center'>The Minimum of <%=text%> is: <%=max%></h4>
+                        <%}else if(aggregation=='min' && max==''){%>
+                          <h4 align='center' class='aggbox text-center'>The Minimum of <%=text%> is: 0</h4>
                           <%}%>
                       
                   
                         <%if(aggregation=='avg' && max!='') {%>
                           <%console.log('Avg for '+ column + " is: " + max); %>
-                      <h4 align='center' class='aggbox text-center'>Average for <%=text%> is: <%=max.toFixed(2)%></h4>
-                          
+                      <h4 align='center' class='aggbox text-center'>The Average of <%=text%> is: <%=max.toFixed(2)%></h4>
+                      <%}else if(aggregation=='avg' && max==''){%>
+                        <h4 align='center' class='aggbox text-center'>The Average of <%=text%> is: 0</h4>
                         <%}%>
     <div align='center'  class='tablediv'>
             <table class="table table-bordered data">

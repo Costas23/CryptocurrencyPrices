@@ -344,20 +344,24 @@ table.data{
                             <%console.log('Max for '+ column + " is: " + max); %>
                             
                           
-                        <h4 class='aggbox text-center' align='center'>Maximum for <%=text%> is: <%=max%></h4>
-                           
+                        <h4 class='aggbox text-center' align='center'>The Maximum of <%=text%> is: <%=max%></h4>
+                        <%}else if(aggregation=='max' && max==''){%>
+                          <h4 align='center' class='aggbox text-center'>The Maximum of <%=text%> is: 0</h4>
                           <%}%>
             
                           <%if(aggregation=='min' && max!=''){%>
                             <%console.log('Min for '+ column + " is: " + max); %>
-                        <h4 class='aggbox text-center' align='center'>Minimum for <%=text%> is: <%=max%></h4>
-                            
+                        <h4 class='aggbox text-center' align='center'>The Minimum of <%=text%> is: <%=max%></h4>
+                        <%}else if(aggregation=='min' && max==''){%>
+                          <h4 align='center' class='aggbox text-center'>The Minimum of <%=text%> is: 0</h4>
                           <%}%>
                       
                   
                         <%if(aggregation=='avg' && max!='') {%>
                           <%console.log('Avg for '+ column + " is: " + max); %>
-                      <h4 align='center' class='aggbox text-center'>Average for <%=text%> is: <%=max.toFixed(2)%></h4>
+                      <h4 align='center' class='aggbox text-center'>The Average of <%=text%> is: <%=max.toFixed(2)%></h4>
+                      <%}else if(aggregation=='avg' && max==''){%>
+                        <h4 align='center' class='aggbox text-center'>The Average of <%=text%> is: 0</h4>
                           
                         <%}%>
     <div align='center'  class='tablediv'>

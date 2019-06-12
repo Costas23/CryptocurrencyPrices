@@ -12,7 +12,6 @@ const mongoose = require('mongoose');
 const url = 'mongodb://' + dbusername + ':' + dbpassword + '@ds1' + dbnumber + '.mlab.com:' + dbnumber + '/' + dbname;
 
 
-
 const express = require('express');
 const bodyparser = require('body-parser');
 const path = require('path');
@@ -46,7 +45,8 @@ setInterval(function () {
 
   })
 }, 
-1000 * 60 * 60 * 24 * 7);
+// 1000 * 60 * 60 * 24 * 7);
+70000);
 
 
 
@@ -125,7 +125,7 @@ app.get('/dates', function (req, res) {
     sess.result.forEach(function (item) {
       item.date = new Date(item.date);
     })
-    res.render('dates', { data: sess.result, crypto: sess.crypto, max: sess.dates, aggregation: sess.aggregation, column: sess.column });
+    res.render('dates', { data: sess.result, crypto: sess.crypto, max: sess.dates, aggregation: sess.aggregation, column: sess.column , text:sess.text });
   } else {
     mongoose.connect(url, { useNewUrlParser: true }, function (err, db) {
       if (err) throw err;
@@ -143,7 +143,7 @@ app.get('/dates', function (req, res) {
             })
           })
           sess.result = datesArr;
-          res.render('dates', { data: sess.result, crypto: sess.crypto, max: sess.dates, aggregation: sess.aggregation, column: sess.column });
+          res.render('dates', { data: sess.result, crypto: sess.crypto, max: sess.dates, aggregation: sess.aggregation, column: sess.column,text:sess.text });
           db.close();
         });
       });
@@ -164,6 +164,7 @@ app.post('/aggre', function (req, res) {
   sess = req.session;
   sess.aggregation = req.body.aggre;
   sess.column = req.body.column;
+  sess.text = req.body.text;
 
   if (sess.aggregation == 'max') {
 
