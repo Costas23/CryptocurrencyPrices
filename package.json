@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "fast-csv": "^2.5.0",
-    "mongoose": "^5.5.14",
+    "mongoose": "^5.7.5",
     "path": "^0.12.7",
     "shelljs": "^0.8.3"
   },
